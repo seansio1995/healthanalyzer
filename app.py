@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 import smtplib
 from email.mime.text import MIMEText
-
+from math import *
 
 app = Flask(__name__)
+app.secret_key = "super secret key"
 POSTGRES = {
     'user': 'postgres',
     'pw': '',
@@ -22,7 +23,7 @@ db.create_all()
 # db.session.commit()
 def send_email(email, height, weight, age,average_height_value, average_weight_value,average_age_value, count):
     FROM_EMAIL='healthanalyzer2017@gmail.com' #healthanalyzer
-    FROM_PASSWORD='boss8888'   #boss8888
+    FROM_PASSWORD=''   #
     message="Hey there, your height is <strong> %s</strong>. <br> \
     Your weight is <strong> %s </strong>. <br> \
     Your age is <strong> %s </strong>. <br> \
@@ -68,6 +69,13 @@ class User(db.Model):
         self.weight = weight
         self.age = age
 
+def bmi_calculator(height,weight):
+    height=int(height)
+    weight=int(weight)
+    scaled_height=height/100
+    result=weight/pow(scaled_height,2)
+    return result
+
 #    def __repr__(self):
 #        return '<E-mail %r>' % self.email
 
@@ -77,8 +85,8 @@ def index():
     return render_template('index.html')
 
 # Save e-mail to database and send to success page
-@app.route('/prereg',methods=['POST'])
-def prereg():
+@app.route('/stats',methods=['POST'])
+def stats():
     email_ = None
     height_ = None
     weight_ = None
@@ -106,10 +114,25 @@ def prereg():
             #print(float(average.all()[0]))
             #print(type(average))
             #print(average.value(User.height))
+        if request.form['submit']=="STAT":
             send_email(email_, height_, weight_, age_,average_height_value, average_weight_value, average_age_value,count)
             return render_template('success.html', email=email_)
+        elif request.form['submit']=="OVERWEIGHT?":
+            bmi_ratio=bmi_calculator(height_,weight_)
+            if bmi_ratio > 30:
+                res="obese"
+            elif bmi_ratio > 25:
+                res="overweight"
+            else:
+                res="underweight"
+            session['res']=res
+            return redirect(url_for('overweight',res=res))
     return render_template('index.html', text="Seems like we've got something from that email already!")
 
+@app.route('/overweight',methods=['GET'])
+def overweight():
+    res=session['res']
+    return render_template("overweight.html",res=res)
 
 
 if __name__ == '__main__':

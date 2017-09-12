@@ -36,16 +36,36 @@ input{
   transition: all 0.2s ease-in-out;
 }
 
-.go-button {
+.go-button1 {
   width: 100px;
   height:30px;
   background-color:#0c8bdb;
   border: 2;
   border-color: gray;
+  border-radius:10px;
   margin: 3px;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.go-button2 {
+  width: 150px;
+  height:30px;
+  background-color:#0c8bdb;
+  border: 2;
+  border-color: gray;
+  border-radius:10px;
+  margin: 3px;
+  text-align: center;
+  padding-bottom: 30px;
 }
 
 .container p {
+  margin: 40;
+  font-size: 25px;
+}
+
+.container h2 {
   margin: 200;
   font-size: 25px;
 }
