@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title> "Data Collector App" </title>
+    <head>
+      <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+      <body>
+        <div class="container">
+          <h1> Collecting heights </h1>
+          <h3> Please fill the entries to get population health statistics   </h3>
+          <div class="email-exists">
+          {{text | safe}}
+          </div>
+  		      <div class="form">
+              <form action="{{url_for('prereg')}}" method="POST">
+  			        <input title="Your email address will be safe with us." placeholder="Enter your email address" type="email" name="email_name" required> <br>
+  			        <input title="Your email address will be safe with us." placeholder="Enter your height in cm" type="number" min="50", max="300", step="0." name="height_name" required> <br>
+                <input title="Your email address will be safe with us." placeholder="Enter your weight in kg" type="number" min="50", max="300", step="0." name="weight_name" required> <br>
+                <input title="Your email address will be safe with us." placeholder="Enter your age in years" type="number" min="10", max="100", step="0." name="age_name" required> <br>
+                <button class="go-button" type="submit"> Submit </button>
+  		        </form>
+          </div>
+  		  </div>
+      </body>
+  </html>
