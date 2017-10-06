@@ -15,7 +15,7 @@ POSTGRES = {
     'port': '5433',
 }
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///healthanalyzer.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:xcf1995214@localhost/healthanalyzer'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:@localhost/healthanalyzer'
 db = SQLAlchemy(app)
 
 # Create our database model
